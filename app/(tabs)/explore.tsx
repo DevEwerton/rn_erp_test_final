@@ -1,7 +1,7 @@
 import Button from "@/components/ui/button";
 import { useSession } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { FlatList, StyleSheet, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Clients {
@@ -15,6 +15,7 @@ export default function ExploreScreen ()
 	const { signOut } = useSession();
 	const [isLoading, setIsLoading] = useState(true);
 	const [clients, setClients] = useState<Clients[]>([]);
+	const [search, setSearch] = useState("");
 
 	useEffect(() => {
 		getClients();
@@ -34,7 +35,7 @@ export default function ExploreScreen ()
 		setIsLoading(true);
 		setClients([]);
 
-		await setDelay(5);
+		await setDelay(3);
 
 		try
 		{
@@ -78,14 +79,33 @@ export default function ExploreScreen ()
 		setIsLoading(false);
 	}
 
+	const filteredClients = useMemo(() => {
+		if (search.trim() === "") { return clients; }
+
+		return clients.filter((client) => {
+			return (
+				client.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+				client.email.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+			);
+		});
+		
+	}, [search, clients])
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Listagem de Clientes</Text>
+			<TextInput
+				value={search}
+				onChangeText={setSearch}
+				placeholder="pesquise por nome ou email"
+				style={styles.input}
+				placeholderTextColor="#999"
+			/>
 			{isLoading && <Text>carregando...</Text>}
 			{!isLoading && clients.length === 0 && <Text>nenhum cliente encontrado</Text>}
 			<FlatList
 				style={styles.list}
-				data={clients}
+				data={filteredClients}
 				keyExtractor={(item) => item.id.toString()}
 				renderItem={({ item, index }) => (
 					<Text style={styles.item}>{(index + 1)}- {item.name} ({item.email})</Text>
@@ -130,5 +150,14 @@ const styles = StyleSheet.create({
 	list: {
 		width: "100%",
 		marginVertical: 20,
+	},
+	input: {
+		borderColor: "#000",
+        borderWidth: 1,
+        borderRadius: 4,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        margin: 10,
+        width: "80%"
 	}
 });

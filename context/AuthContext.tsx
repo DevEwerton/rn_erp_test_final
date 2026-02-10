@@ -5,7 +5,7 @@ import { useStorageState } from "../hooks/use-store-state";
 const AuthContext = createContext
 <
 	{
-		signIn: () => void;
+		signIn: (email: string, password: string) => Promise<void>;
 		signOut: () => void;
 		session?: string | null;
 		isLoading: boolean;
@@ -13,7 +13,7 @@ const AuthContext = createContext
 >
 (
 	{
-		signIn: () => null,
+		signIn: async (email: string, password: string) => {},
 		signOut: () => null,
 		session: null,
 		isLoading: false,
@@ -37,8 +37,35 @@ export function SessionProvider ({ children }: PropsWithChildren)
 		<AuthContext.Provider
 			value={
 				{
-					signIn: () => {
-						setSession("xxx");
+					signIn: async (email: string, password: string) => {
+
+						try
+						{
+							const response = await fetch("https://jsonplaceholder.typicode.com/posts", 
+								{
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify({ email, password }),
+								}
+							);
+		
+							if (!response.ok)
+							{
+								// const errorData = await response.json();
+								// throw new Error(errorData.error || "Erro ao fazer login");
+							}
+		
+							const data = await response.json();
+	
+							setSession(data.token || "authenticated");
+						}
+						catch (error)
+						{
+							console.log("error: ", error);
+							throw new Error("Erro ao fazer login");
+						}
 					},
 					signOut: () => {
 						setSession(null);

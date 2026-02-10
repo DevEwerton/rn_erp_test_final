@@ -51,7 +51,7 @@ export default function LoginScreen ()
 
         try
         {
-            signIn();
+            await signIn(user.email, user.password);
         }
         catch (error)
         {
