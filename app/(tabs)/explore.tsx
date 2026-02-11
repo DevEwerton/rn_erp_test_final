@@ -1,5 +1,5 @@
-import Button from "@/components/ui/button";
-import { useSession } from "@/context/AuthContext";
+import { LIGHT } from "@/constants/theme";
+import { useTheme } from "@/context/ThemeColorContext";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,10 +12,10 @@ interface Clients {
 
 export default function ExploreScreen ()
 {
-	const { signOut } = useSession();
 	const [isLoading, setIsLoading] = useState(true);
 	const [clients, setClients] = useState<Clients[]>([]);
 	const [search, setSearch] = useState("");
+	const {theme} = useTheme();
 
 	useEffect(() => {
 		getClients();
@@ -92,7 +92,7 @@ export default function ExploreScreen ()
 	}, [search, clients])
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={[styles.container, theme === LIGHT ? styles.light : styles.dark]}>
 			<Text style={styles.title}>Listagem de Clientes</Text>
 			<TextInput
 				value={search}
@@ -111,11 +111,6 @@ export default function ExploreScreen ()
 					<Text style={styles.item}>{(index + 1)}- {item.name} ({item.email})</Text>
 				)}
 			/>
-			<Button
-				label="sair"
-				onPress={signOut}
-				isLoading={false}
-			/>
 		</SafeAreaView>
 	);
 }
@@ -128,6 +123,12 @@ const styles = StyleSheet.create({
 		display: "flex",
 		alignItems: "center",
 	},
+    dark: {
+        backgroundColor: "#949494",
+    },
+    light: {
+        backgroundColor: "#f2f2f2",
+    },
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",

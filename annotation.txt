@@ -1,0 +1,18 @@
+-For create expo app:
+npx create-expo-app rn_erp_test_final
+
+-About ERP Mobile Challenge:
+O projeto é focado em Arquitetura Escalável, Segurança de Dados e Performance de Interface para sistemas de gestão.
+
+Em resumo, os pilares que cobrimos foram:
+
+* Arquitetura Hexagonal (Ports & Adapters): Estruturação do projeto em camadas independentes (domain, ports, adapters), garantindo o desacoplamento total entre as regras de negócio e a infraestrutura (API, Storage, UI).
+* Fluxos de Autenticação Protegidos: Implementação de Navigation Guards utilizando Stack.Protected do Expo Router, garantindo que rotas sensíveis só sejam acessíveis com uma sessão ativa.
+* Gerenciamento de Estado Global (Context API): Criação de SessionProvider para autenticação e ThemeColorProvider para suporte a temas, centralizando estados e ações em todo o app.
+* Consumo de APIs REST (GET/POST): Integração real com serviços externos utilizando fetch e async/await, com tratamento de erros robusto e feedbacks visuais de loading.
+* Formulários e UX Avançada: Implementação de máscaras para CPF/CNPJ e sanitização de inputs via Regex, além de otimização de teclado com ScrollView e KeyboardAvoidingView.
+* Performance em Listagens: Uso de FlatList para grandes volumes de dados e otimização de busca em tempo real utilizando o hook useMemo para evitar re-renderizações desnecessárias.
+* Componentização e TypeScript: Criação de componentes reutilizáveis com interfaces rigorosas, suportando estados dinâmicos e garantindo a tipagem em todo o fluxo de dados.
+* Organização de Rotas: Uso de Group Segments (auth e tabs) no Expo Router para separar fluxos de acesso, mantendo a lógica de negócio isolada na pasta src.
+
+Em uma frase: O projeto validou a capacidade de estruturar a fundação de um aplicativo profissional, utilizando padrões de engenharia de software para garantir um sistema ERP seguro, performático e fácil de manter.

@@ -1,4 +1,6 @@
 import Button from "@/components/ui/button";
+import { LIGHT } from "@/constants/theme";
+import { useTheme } from "@/context/ThemeColorContext";
 import { useState } from "react";
 import { Keyboard, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +23,7 @@ export default function HomeScreen ()
 {
 	const [client, setClient] = useState<Client>(EMPTY_CLIENT);
     const [isLoading, setIsLoading] = useState(false);
+	const {theme} = useTheme();
 
 	async function setDelay (seconds: number)
     {
@@ -153,7 +156,7 @@ export default function HomeScreen ()
     }
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={[styles.container, theme === LIGHT ? styles.light : styles.dark]}>
 			<ScrollView 
 				style={styles.scroll}
 				keyboardShouldPersistTaps="handled"
@@ -221,6 +224,12 @@ const styles = StyleSheet.create({
 		display: "flex",
 		alignItems: "center",
 	},
+	dark: {
+        backgroundColor: "#949494",
+    },
+    light: {
+        backgroundColor: "#f2f2f2",
+    },
     title: {
 		fontSize: 24,
 		fontWeight: "bold",

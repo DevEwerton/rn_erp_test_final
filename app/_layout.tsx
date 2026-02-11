@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 
+import ThemeColorProvider from "@/context/ThemeColorContext";
 import { SplashScreenController } from "../components/ui/splash";
 import { SessionProvider, useSession } from "../context/AuthContext";
 
@@ -39,8 +40,10 @@ export default function Root ()
 	// Set up the auth context and render your layout inside of it.
 	return (
 		<SessionProvider>
-			<SplashScreenController />
-			<RootNavigator />
+			<ThemeColorProvider>
+				<SplashScreenController />
+				<RootNavigator />
+			</ThemeColorProvider>
 		</SessionProvider>
 	);
 }
