@@ -163,7 +163,7 @@ export default function HomeScreen ()
 				contentContainerStyle={styles.areaScroll}
 			>
 				<View style={styles.areaScroll}>
-					<Text style={styles.title}>Cadastro de Cliente</Text>
+					<Text testID="title-index" style={styles.title}>Cadastro de Cliente</Text>
 					<TextInput
 						value={client.name}
 						style={styles.input}
