@@ -1,5 +1,5 @@
-import { createContext, PropsWithChildren, use, useEffect, useState } from 'react';
-import { LIGHT } from '../constants/theme';
+import { createContext, PropsWithChildren, use, useEffect, useState } from "react";
+import { LIGHT } from "../constants/theme";
 
 const ThemeContext = createContext
 <
